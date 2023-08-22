@@ -9,13 +9,6 @@ const { v4: uuidv4 } = require('uuid');
 const newUUID = uuidv4()
 
 
-class Note {
-    constructor(title, text, id){
-    this.title  = title
-    this.text = text
-    this.id = id
-}}
-
 app.use(express.static('public'));
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
@@ -32,10 +25,14 @@ app.get('/api/notes', (req, res) => {
     return res.json(notes)
 });
 
+
 app.post('/api/notes', (req, res) => {
   
   function createNewNote() {
-    const newNote = new Note (`${req.body.title}`, `${req.body.text}`, `${newUUID}`)
+    const newNote = {
+      title: `${req.body.title}`, 
+      text:  `${req.body.text}`, 
+      id: `${newUUID}`}
     if (!Array.isArray(notes))
         notes = [];
       notes.push(newNote)
@@ -45,6 +42,26 @@ app.post('/api/notes', (req, res) => {
     createNewNote()
     res.sendFile(path.join(__dirname, '/public/notes.html'))
 });
+
+app.delete('/api/notes/:id', (req, res) => {
+  function deleteNote() {
+  let noteId = req.params.id
+  let noteIndex;
+ for (let i = 0; i < notes.length; i++) {
+  console.log(notes[i].id);
+  if (notes[i].id === noteId) {
+    noteIndex = [i]
+  }
+
+  notes.splice(noteIndex, 1)
+    fs.writeFileSync(notesFilePath, JSON.stringify(notes))
+}
+  }
+  
+ 
+deleteNote()
+res.sendFile(path.join(__dirname, '/public/notes.html'))
+})
 
 
 app.listen(PORT, () =>
