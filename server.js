@@ -5,12 +5,15 @@ const fs = require('fs')
 const app = express();
 const PORT = 3001;
 const notesFilePath = path.join(__dirname, './db/db.json');
+const { v4: uuidv4 } = require('uuid');
+const newUUID = uuidv4()
+
 
 class Note {
-    constructor(title, text, uuid){
+    constructor(title, text, id){
     this.title  = title
     this.text = text
-    this.uuid = uuid
+    this.id = id
 }}
 
 app.use(express.static('public'));
@@ -29,15 +32,10 @@ app.get('/api/notes', (req, res) => {
     return res.json(notes)
 });
 
-
-
-  
-    
-
 app.post('/api/notes', (req, res) => {
   
   function createNewNote() {
-    const newNote = new Note (`${req.body.title}`, `${req.body.text}`, `uuid`)
+    const newNote = new Note (`${req.body.title}`, `${req.body.text}`, `${newUUID}`)
     if (!Array.isArray(notes))
         notes = [];
       notes.push(newNote)
@@ -45,7 +43,7 @@ app.post('/api/notes', (req, res) => {
   }
    
     createNewNote()
-    getNotes()
+    res.sendFile(path.join(__dirname, '/public/notes.html'))
 });
 
 
