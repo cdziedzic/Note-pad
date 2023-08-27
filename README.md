@@ -6,6 +6,15 @@ An app to take notes and organize them in list format. The user can enter in a n
 
 The front end javascript was provided for this challenge. The challenge was to insert the back-end functionality and link the back-end with the front-end.
 
+### Screenshots
+![Alt text](image-1.png)
+![Alt text](image.png)
+
+### links
+https://github.com/cdziedzic/Note-pad
+https://protected-citadel-40639-3d8d32fbfe01.herokuapp.com
+
+
 ## Table of contents
 
 - [Installation](#installation)
